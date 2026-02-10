@@ -1,49 +1,51 @@
 import React from "react"
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Eye, EyeOff } from 'lucide-react'
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
+import type { LoginFormProps } from "@/types/components.types"
+import { loginUser } from "@/api/user/user.service"
+import { useUser } from "@/hooks/useUser"
+import useLocalStorage from "@/hooks/useLocalStorage"
+import { useAuth } from "@/hooks/useAuth"
 
-export default function LoginForm() {
-  const navigate = useNavigate()
-  const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
-  const [error, setError] = useState('')
+export default function LoginForm(props: LoginFormProps) {
+  const { setAuthenticated } = useAuth();
+  const { setLocalStorageItem } = useLocalStorage();
+  const { setUser } = useUser();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({
+    props.setFormData((prev) => ({
       ...prev,
       [name]: value,
     }))
-    setError('')
+    props.setError('');
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-
+    e.preventDefault();
     try {
       // Placeholder for authentication logic
-      if (!formData.email || !formData.password) {
-        setError('Please fill in all fields')
+      if (!props.formData.email || !props.formData.password) {
+        props.setError('Please fill in all fields');
         return
       }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      // API call
+      loginUser({
+        email: props.formData.email,
+        password: props.formData.password,
+        navigate: props.navigate,
+        isLoading: props.isLoading,
+        setIsLoading: props.setIsLoading,
+        setAuthenticated: setAuthenticated,
+        setLocalStorageItem: setLocalStorageItem,
+        setUser: setUser,
+      });
 
-      // Redirect to chat on success
-      navigate('/')
     } catch (err) {
-      setError('Failed to sign in. Please try again.')
-    } finally {
-      setIsLoading(false)
+      props.setError('Failed to sign in. Please try again.')
     }
   }
 
@@ -51,7 +53,7 @@ export default function LoginForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Email */}
       <div>
-        <label htmlFor="email" className="block mb-2 font-medium text-foreground text-sm">
+        <label htmlFor="email" className="block mb-2 text-sm font-medium text-foreground">
           Email Address
         </label>
         <Input
@@ -59,50 +61,50 @@ export default function LoginForm() {
           name="email"
           type="email"
           placeholder="you@example.com"
-          value={formData.email}
+          value={props.formData.email}
           onChange={handleChange}
-          className="bg-white border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 w-full transition-all"
-          disabled={isLoading}
+          className="w-full transition-all bg-white border border-border focus:border-primary focus:ring-2 focus:ring-primary/20"
+          disabled={props.isLoading}
         />
       </div>
 
       {/* Password */}
       <div>
-        <label htmlFor="password" className="block mb-2 font-medium text-foreground text-sm">
+        <label htmlFor="password" className="block mb-2 text-sm font-medium text-foreground">
           Password
         </label>
         <div className="relative">
           <Input
             id="password"
             name="password"
-            type={showPassword ? 'text' : 'password'}
+            type={props.showPassword ? 'text' : 'password'}
             placeholder="••••••••"
-            value={formData.password}
+            value={props.formData.password}
             onChange={handleChange}
-            className="bg-white pr-10 border border-border focus:border-primary focus:ring-2 focus:ring-primary/20 w-full transition-all"
-            disabled={isLoading}
+            className="w-full pr-10 transition-all bg-white border border-border focus:border-primary focus:ring-2 focus:ring-primary/20"
+            disabled={props.isLoading}
           />
           <button
             type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="top-1/2 right-3 absolute text-muted-foreground hover:text-foreground transition-colors -translate-y-1/2 transform"
-            disabled={isLoading}
+            onClick={() => props.setShowPassword(!props.showPassword)}
+            className="absolute transition-colors transform -translate-y-1/2 top-1/2 right-3 text-muted-foreground hover:text-foreground"
+            disabled={props.isLoading}
           >
-            {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            {props.showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
       {/* Error message */}
-      {error && <div className="bg-red-50 p-3 border border-red-200 rounded-md text-red-700 text-sm">{error}</div>}
+      {props.error && <div className="p-3 text-sm text-red-700 border border-red-200 rounded-md bg-red-50">{props.error}</div>}
 
       {/* Remember me */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <label className="flex items-center gap-2 cursor-pointer">
-          <input type="checkbox" className="border-border rounded w-4 h-4" disabled={isLoading} />
-          <span className="text-muted-foreground text-sm">Remember me</span>
+          <input type="checkbox" className="w-4 h-4 rounded border-border" disabled={props.isLoading} />
+          <span className="text-sm text-muted-foreground">Remember me</span>
         </label>
-        <Link to="/forgot-password" className="hover:opacity-80 font-medium text-sm transition-opacity gradient-red-purple-text">
+        <Link to="/forgot-password" className="text-sm font-medium transition-opacity hover:opacity-80 gradient-red-purple-text">
           Forgot password?
         </Link>
       </div>
@@ -110,10 +112,10 @@ export default function LoginForm() {
       {/* Submit button */}
       <Button
         type="submit"
-        disabled={isLoading}
-        className="hover:opacity-90 disabled:opacity-50 mt-6 rounded-lg w-full h-10 font-medium text-white transition-all gradient-red-purple"
+        disabled={props.isLoading}
+        className="w-full h-10 mt-6 font-medium text-white transition-all rounded-lg hover:opacity-90 disabled:opacity-50 gradient-red-purple"
       >
-        {isLoading ? 'Signing in...' : 'Sign in'}
+        {props.isLoading ? 'Signing in...' : 'Sign in'}
       </Button>
     </form>
   )

@@ -1,21 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowLeft, Eye, EyeOff, Copy, Check, Shield } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useUser } from '@/hooks/useUser';
+import { useAuth } from '@/hooks/useAuth';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { getSingleUser, updateUserPreferences, updateUserProfile } from '@/api/user/user.service';
+import LoadingComponent from '@/components/loading-component/LoadingComponent';
 
 export default function ProfilePage() {
   const [profileData, setProfileData] = useState({
-    fname: 'John',
-    lname: 'Doe',
-    email: 'john@example.com',
-    bio: 'AI enthusiast and developer',
-    avatar: 'JD',
+    fname: '',
+    lname: '',
+    email: '',
+    bio: '',
+    vo_api_key: '',
+    status: true,
   });
 
-  const [apiKey, setApiKey] = useState('v0_1a2b3c4d5e6f7g8h9i0j');
+  const { setAuthenticated } = useAuth();
+  const { clearLocalStorageItem } = useLocalStorage();
+  const { setUser } = useUser();
+  const navigate = useNavigate();
+  const userId = localStorage.getItem('user-id') || '';
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiKey, setApiKey] = useState('');
   const [showApiKey, setShowApiKey] = useState(false);
   const [copiedApiKey, setCopiedApiKey] = useState(false);
   const [savedMessage, setSavedMessage] = useState('');
@@ -30,10 +43,29 @@ export default function ProfilePage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSaveProfile = () => {
-    setProfileData(formData);
-    setSavedMessage('Profile updated successfully!');
-    setTimeout(() => setSavedMessage(''), 3000);
+  const handleSaveProfile = async () => {
+    const isConfirmed = window.confirm('Are you sure you want to update your profile data?');
+
+    if (!isConfirmed) return;
+
+    await updateUserProfile({
+      bio: formData.bio,
+      fname: formData.fname,
+      lname: formData.lname,
+      navigate: navigate,
+      setIsLoading: setIsLoading,
+      userId: userId,
+      setSavedMessage: setSavedMessage,
+      setProfileData: setProfileData,
+      isLoading: isLoading,
+    });
+    setProfileData((prev) => ({
+      ...prev,
+      fname: formData.fname,
+      lname: formData.lname,
+      bio: formData.bio,
+      email: formData.email,
+    }));
   };
 
   const handleCopyApiKey = () => {
@@ -42,44 +74,95 @@ export default function ProfilePage() {
     setTimeout(() => setCopiedApiKey(false), 2000);
   };
 
+  const handleLogout = () => {
+    const isConfirmed = window.confirm('Are you sure you want to log out?');
+
+    if (!isConfirmed) return;
+
+    clearLocalStorageItem('user-id');
+    setAuthenticated(false);
+    setUser('');
+    navigate('/login');
+  };
+
   const handleUpdateApiKey = () => {
     if (newApiKey.trim()) {
-      setApiKey(newApiKey);
-      setNewApiKey('');
-      setShowApiKeyForm(false);
-      setSavedMessage('API Key updated successfully!');
-      setTimeout(() => setSavedMessage(''), 3000);
+      const isConfirmed = window.confirm('Are you sure you want to update API keys?');
+
+      if (!isConfirmed) return;
+
+      updateUserPreferences({
+        navigate: navigate,
+        newApiKey: newApiKey,
+        setIsLoading: setIsLoading,
+        setProfileData: setProfileData,
+        setSavedMessage: setSavedMessage,
+        setShowApiKeyForm: setShowApiKeyForm,
+        setApiKey: setApiKey,
+        userId: userId,
+        vo_api_key: newApiKey,
+        setNewApiKey: setNewApiKey,
+      });
     }
   };
 
+  const fetchUser = async () => {
+    const userId = localStorage.getItem('user-id');
+    if (!userId) return;
+
+    try {
+      setIsLoading(true);
+
+      const data = await getSingleUser({
+        userId: userId,
+        setIsLoading: setIsLoading,
+      });
+
+      if (data) {
+        setProfileData(data);
+        setFormData(data);
+        setApiKey(data.vo_api_key || '');
+      } else {
+        console.error('No user data returned');
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
-    <div className="bg-background min-h-screen">
+    <div className="min-h-screen bg-background">
+      {isLoading && <LoadingComponent />}
+
       {/* Header */}
-      <header className="bg-white/50 border-border border-b">
-        <div className="flex items-center gap-4 mx-auto px-4 h-16 container">
+      <header className="border-b bg-white/50 border-border">
+        <div className="container flex items-center h-16 gap-4 px-4 mx-auto">
           <Link to="/chat">
             <Button variant="ghost" size="icon" className="hover:bg-muted text-foreground">
               <ArrowLeft className="w-5 h-5" />
             </Button>
           </Link>
-          <h1 className="font-bold text-foreground text-2xl">Profile Settings</h1>
+          <h1 className="text-2xl font-bold text-foreground">Profile Settings</h1>
         </div>
       </header>
 
-      <div className="mx-auto px-4 py-12 max-w-4xl container">
+      <div className="container max-w-4xl px-4 py-12 mx-auto">
         {/* Success Message */}
         {savedMessage && (
-          <div className="bg-green-50 mb-6 p-4 border border-green-200 rounded-lg text-green-700 text-sm">
+          <div className="p-4 mb-6 text-sm text-green-700 border border-green-200 rounded-lg bg-green-50">
             {savedMessage}
           </div>
         )}
 
         {/* Profile Section */}
-        <div className="bg-white/50 mb-12 p-8 border border-border rounded-2xl">
+        <div className="p-8 mb-12 border bg-white/50 border-border rounded-2xl">
           <div className="flex items-center gap-6 mb-8">
-            {/* <div className="flex justify-center items-center rounded-full w-20 h-20 font-bold text-white text-2xl gradient-red-purple">
-              {profileData.avatar}
-            </div> */}
             <Avatar>
               <AvatarImage
                 src="https://github.com/shadcn.png"
@@ -89,8 +172,8 @@ export default function ProfilePage() {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="font-bold text-foreground text-2xl">
-                {profileData.fname} {profileData.lname}
+              <h2 className="text-2xl font-bold text-foreground">
+                {profileData?.fname || ''} {profileData?.lname || ''}
               </h2>
               <p className="text-foreground/60">{profileData.email}</p>
             </div>
@@ -98,9 +181,9 @@ export default function ProfilePage() {
 
           <div className="space-y-6">
             <div>
-              <label className="block mb-2 font-semibold text-foreground text-sm">First Name</label>
+              <label className="block mb-2 text-sm font-semibold text-foreground">First Name</label>
               <Input
-                name="fullName"
+                name="fname"
                 value={formData.fname}
                 onChange={handleProfileChange}
                 className="bg-white border-border text-foreground"
@@ -109,9 +192,9 @@ export default function ProfilePage() {
             </div>
 
             <div>
-              <label className="block mb-2 font-semibold text-foreground text-sm">Last Name</label>
+              <label className="block mb-2 text-sm font-semibold text-foreground">Last Name</label>
               <Input
-                name="fullName"
+                name="lname"
                 value={formData.lname}
                 onChange={handleProfileChange}
                 className="bg-white border-border text-foreground"
@@ -120,63 +203,63 @@ export default function ProfilePage() {
             </div>
 
             <div>
-              <label className="block mb-2 font-semibold text-foreground text-sm">Email</label>
+              <label className="block mb-2 text-sm font-semibold text-foreground">Email</label>
               <Input
                 name="email"
                 type="email"
                 value={formData.email}
-                onChange={handleProfileChange}
                 className="bg-white border-border text-foreground"
                 placeholder="Enter your email"
+                disabled={true}
               />
             </div>
 
             <div>
-              <label className="block mb-2 font-semibold text-foreground text-sm">Bio</label>
+              <label className="block mb-2 text-sm font-semibold text-foreground">Bio</label>
               <textarea
                 name="bio"
                 value={formData.bio}
                 onChange={handleProfileChange}
-                className="bg-white p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary w-full text-foreground placeholder:text-foreground/50"
+                className="w-full p-3 bg-white border rounded-lg border-border focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-foreground/50"
                 rows={4}
                 placeholder="Tell us about yourself"
               />
             </div>
 
-            <Button onClick={handleSaveProfile} className="border-0 text-white gradient-red-purple">
+            <Button onClick={handleSaveProfile} className="text-white border-0 gradient-red-purple">
               Save Changes
             </Button>
           </div>
         </div>
 
         {/* API Keys Section */}
-        <div className="bg-gradient-to-br from-background to-white/30 p-8 border border-border rounded-2xl">
+        <div className="p-8 border bg-gradient-to-br from-background to-white/30 border-border rounded-2xl">
           <div className="flex items-center gap-3 mb-6">
             <Shield className="w-6 h-6 text-primary" />
-            <h2 className="font-bold text-foreground text-2xl">API Keys</h2>
+            <h2 className="text-2xl font-bold text-foreground">API Keys</h2>
           </div>
 
           <p className="mb-8 text-foreground/70">
-            Manage your API keys securely. Keep them private and never share them publicly.
+            Manage your API key securely. Keep them private and never share them publicly.
           </p>
 
           {/* V0_API_KEY */}
-          <div className="bg-white/50 mb-8 p-6 border border-border/50 rounded-xl">
+          <div className="p-6 mb-8 border bg-white/50 border-border/50 rounded-xl">
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex justify-center items-center rounded-lg w-8 h-8 gradient-red-purple">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg gradient-red-purple">
                 <Shield className="w-4 h-4 text-white" />
               </div>
-              <h3 className="font-bold text-foreground text-lg">V0_API_KEY</h3>
+              <h3 className="text-lg font-bold text-foreground">V0_API_KEY</h3>
             </div>
 
-            <p className="mb-4 text-foreground/60 text-sm">
-              Primary API key for AIChat platform access and authentication.
+            <p className="mb-4 text-sm text-foreground/60">
+              Primary API keys for AIChat platform access and authentication.
             </p>
 
             <div className="space-y-4">
               {/* Current API Key Display */}
               <div>
-                <label className="block mb-2 font-medium text-foreground/70 text-sm">
+                <label className="block mb-2 text-sm font-medium text-foreground/70">
                   Current Key
                 </label>
                 <div className="flex items-center gap-2">
@@ -184,7 +267,7 @@ export default function ProfilePage() {
                     type={showApiKey ? 'text' : 'password'}
                     value={apiKey}
                     readOnly
-                    className="flex-1 bg-muted p-3 border border-border rounded-lg font-mono text-foreground text-sm"
+                    className="flex-1 p-3 font-mono text-sm border rounded-lg bg-muted border-border text-foreground"
                   />
                   <Button
                     variant="ghost"
@@ -214,14 +297,14 @@ export default function ProfilePage() {
                 <Button
                   onClick={() => setShowApiKeyForm(true)}
                   variant="outline"
-                  className="hover:bg-muted border-border w-full text-foreground"
+                  className="w-full hover:bg-muted border-border text-foreground"
                 >
-                  Regenerate API Key
+                  Update API Key
                 </Button>
               ) : (
-                <div className="space-y-4 pt-4 border-border border-t">
+                <div className="pt-4 space-y-4 border-t border-border">
                   <div>
-                    <label className="block mb-2 font-medium text-foreground/70 text-sm">
+                    <label className="block mb-2 text-sm font-medium text-foreground/70">
                       New API Key
                     </label>
                     <div className="flex items-center gap-2">
@@ -229,8 +312,8 @@ export default function ProfilePage() {
                         type={showNewApiKey ? 'text' : 'password'}
                         value={newApiKey}
                         onChange={(e) => setNewApiKey(e.target.value)}
-                        placeholder="Enter new API key or leave blank to auto-generate"
-                        className="flex-1 bg-white p-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-foreground/50"
+                        placeholder="Enter new API keys"
+                        className="flex-1 p-3 bg-white border rounded-lg border-border focus:outline-none focus:ring-2 focus:ring-primary text-foreground placeholder:text-foreground/50"
                       />
                       <Button
                         variant="ghost"
@@ -250,7 +333,7 @@ export default function ProfilePage() {
                   <div className="flex gap-3">
                     <Button
                       onClick={handleUpdateApiKey}
-                      className="border-0 text-white gradient-red-purple"
+                      className="text-white border-0 gradient-red-purple"
                     >
                       Update Key
                     </Button>
@@ -272,23 +355,38 @@ export default function ProfilePage() {
           </div>
 
           {/* Security Info */}
-          <div className="bg-primary/10 p-4 border border-primary/20 rounded-lg">
-            <p className="text-foreground/70 text-sm">
+          <div className="p-4 border rounded-lg bg-primary/10 border-primary/20">
+            <p className="text-sm text-foreground/70">
               <strong>Security Tip:</strong> Regenerate your API key periodically and immediately if
               you suspect it has been compromised.
             </p>
           </div>
         </div>
 
+        {/* Logout Section */}
+        <div className="p-8 mt-12 border-2 rounded-2xl">
+          <h2 className="mb-4 text-2xl font-bold">Logout</h2>
+          <p className="mb-6 text-foreground/70">
+            Logout from your account. This will clear your session and require you to log in again
+            to access your profile and chat features.
+          </p>
+          <Button
+            onClick={handleLogout}
+            className="w-full text-white border-0 cursor-pointer gradient-red-purple"
+          >
+            Logout
+          </Button>
+        </div>
+
         {/* Danger Zone */}
-        <div className="bg-destructive/5 mt-12 p-8 border-2 border-destructive/30 rounded-2xl">
-          <h2 className="mb-4 font-bold text-destructive text-2xl">Danger Zone</h2>
+        <div className="p-8 mt-12 border-2 bg-destructive/5 border-destructive/30 rounded-2xl">
+          <h2 className="mb-4 text-2xl font-bold text-destructive">Danger Zone</h2>
           <p className="mb-6 text-foreground/70">
             Irreversible actions that will permanently delete your data.
           </p>
           <Button
             variant="outline"
-            className="bg-transparent hover:bg-destructive/10 border-destructive text-destructive"
+            className="w-full bg-transparent cursor-pointer hover:bg-destructive/10 border-destructive text-destructive"
           >
             Delete Account
           </Button>

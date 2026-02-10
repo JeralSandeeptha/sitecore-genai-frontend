@@ -1,11 +1,11 @@
 // src/utils/axiosClient.ts
 import axios, { AxiosError } from 'axios';
 import type { InternalAxiosRequestConfig, AxiosInstance } from 'axios';
-import { config } from './envConfig';
 import logger from '../utils/logger';
+import { envConfig } from './envConfig';
 
 const axiosClient: AxiosInstance = axios.create({
-  baseURL: config.VITE_API_URL || 'http://localhost:5000',
+  baseURL: envConfig.VITE_API_URL || 'http://localhost:5000',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

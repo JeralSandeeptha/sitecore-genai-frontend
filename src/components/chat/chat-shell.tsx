@@ -4,6 +4,7 @@ import { MessageList } from './message-list';
 import { Composer, type AIModel } from './composer';
 import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 // Data model for messages
 export interface Message {
@@ -30,6 +31,7 @@ export function ChatShell() {
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [selectedModel, setSelectedModel] = useState<AIModel>('google/gemini-2.0-flash-001');
   const [isLoaded, setIsLoaded] = useState(false);
+  const { authenticated } = useAuth();
 
   // Load messages from localStorage on mount
   useEffect(() => {
@@ -198,7 +200,7 @@ export function ChatShell() {
         onClick={clearChat}
         variant="ghost"
         size="icon"
-        className="top-4 left-4 z-20 absolute rounded-full w-10 h-10 text-white hover:text-white hover:scale-105 transition-all cursor-pointer gradient-red-purple"
+        className="absolute z-20 w-10 h-10 text-white transition-all rounded-full cursor-pointer top-4 left-4 hover:text-white hover:scale-105 gradient-red-purple"
         aria-label="Reset chat"
       >
         <MessageSquare className="w-5 h-5" />
@@ -209,40 +211,20 @@ export function ChatShell() {
           onClick={clearChat}
           variant="ghost"
           size="icon"
-          className="top-16 left-4 z-20 absolute rounded-full w-10 h-10 text-white hover:text-white hover:scale-105 transition-all cursor-pointer gradient-red-purple"
+          className="absolute z-20 w-10 h-10 text-white transition-all rounded-full cursor-pointer top-16 left-4 hover:text-white hover:scale-105 gradient-red-purple"
           aria-label="Reset chat"
         >
           <Brain className="w-5 h-5" />
         </Button>
       </Link>
 
-      <div className='top-4 right-4 z-20 absolute flex gap-2'>
-        <Link to='/login'>
-          <Button
-            onClick={clearChat}
-            variant="ghost"
-            size="lg"
-            className="rounded-full text-white hover:text-white hover:scale-105 transition-all cursor-pointer cursor gradient-red-purple"
-          >
-            Login
-          </Button>
-        </Link>
-        <Link to='/register'>
-          <Button
-            onClick={clearChat}
-            variant="ghost"
-            size="lg"
-            className="rounded-full text-white hover:text-white hover:scale-105 transition-all cursor-pointer cursor gradient-red-purple"
-          >
-            Sign In
-          </Button>
-        </Link>
+      <div className='absolute z-20 flex gap-2 top-4 right-4'>
         <Link to="/profile">
           <Button
             onClick={clearChat}
             variant="ghost"
             size="icon"
-            className="rounded-full w-10 h-10 text-white hover:text-white hover:scale-105 transition-all cursor-pointer gradient-red-purple"
+            className="w-10 h-10 text-white transition-all rounded-full cursor-pointer hover:text-white hover:scale-105 gradient-red-purple"
             aria-label="Reset chat"
           >
             <User className="w-5 h-5" />
