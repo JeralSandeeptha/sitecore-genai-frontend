@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState, useRef, useCallback, type KeyboardEvent, useEffect } from "react"
-import { Square, Mic, MicOff, Brain, Paperclip, X } from "lucide-react"
+import { Square, Mic, MicOff, Brain, Paperclip, X, MessageSquare, Puzzle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import {
@@ -10,15 +10,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
-import { AnimatedOrb } from "./animated-orb"
 import { AudioWaveform } from "./audio-waveform"
 
-export type AIModel = "google/gemini-2.0-flash-001" | "openai/gpt-4o" | "anthropic/claude-sonnet-4"
+export type AIModel = "casual_chat" | "component_generator";
 
-export const AI_MODELS: { id: AIModel; name: string; icon: string }[] = [
-  { id: "google/gemini-2.0-flash-001", name: "Gemini", icon: "/images/google.webp" },
-  { id: "openai/gpt-4o", name: "GPT-4o", icon: "/images/gpt.png" },
-  { id: "anthropic/claude-sonnet-4", name: "Claude", icon: "/images/claude.svg" },
+export const AI_MODELS: { id: AIModel; name: string; icon: React.ReactElement }[] = [
+  { id: "casual_chat", name: "Casual Chat", icon: <MessageSquare className="w-4 h-4" /> },
+  { id: "component_generator", name: "Component Generator", icon: <Puzzle className="w-4 h-4" /> },
 ]
 
 interface ComposerProps {
@@ -200,7 +198,7 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
 
   return (
     <div className={cn("right-0 bottom-4 left-0 z-10 fixed px-4 pointer-events-none", hasAnimated && "composer-intro")}>
-      <div className="relative mx-auto max-w-2xl pointer-events-auto">
+      <div className="relative max-w-2xl mx-auto pointer-events-auto">
         <div
           className={cn(
             "relative flex flex-col gap-3 bg-white p-4 border-0 border-stone-200 border-none rounded-3xl overflow-hidden transition-all duration-200",
@@ -214,13 +212,13 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
           <div className="flex items-center gap-2">
             {uploadedImage && (
               <div className={cn("relative shrink-0", showImageBounce && "image-bounce")}>
-                <div className="border border-stone-200 rounded-lg w-12 h-12 overflow-hidden">
+                <div className="w-12 h-12 overflow-hidden border rounded-lg border-stone-200">
                   <img
                     src={uploadedImage || "/placeholder.svg"}
                     alt="Uploaded image"
                     width={48}
                     height={48}
-                    className="w-full h-full object-cover"
+                    className="object-cover w-full h-full"
                   />
                 </div>
                 <button
@@ -264,12 +262,12 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
                   playClickSound()
                   onStop()
                 }}
-                className="relative flex justify-center items-center rounded-full w-9 h-9 hover:scale-105 transition-all cursor-pointer shrink-0"
+                className="relative flex items-center justify-center transition-all rounded-full cursor-pointer w-9 h-9 hover:scale-105 shrink-0"
                 aria-label="Stop generating"
               >
-                <div className="flex justify-center items-center rounded-full w-full h-full gradient-red-purple">
+                <div className="flex items-center justify-center w-full h-full rounded-full gradient-red-purple">
                   <Square
-                    className="drop-shadow-md w-4 h-4 text-white"
+                    className="w-4 h-4 text-white drop-shadow-md"
                     fill="white"
                     aria-hidden="true"
                   />
@@ -287,7 +285,7 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
                 )}
                 aria-label="Send message"
               >
-                <div className="flex justify-center items-center rounded-full w-full h-full gradient-red-purple">
+                <div className="flex items-center justify-center w-full h-full rounded-full gradient-red-purple">
                   <svg className="w-4 h-4 text-white" fill="white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.6915026,12.4744748 L3.50612381,13.2599618 C3.19218622,13.2599618 3.03521743,13.4170592 3.03521743,13.5741566 L1.15159189,20.0151496 C0.8376543,20.8006365 0.99,21.89 1.77946707,22.52 C2.41,22.99 3.50612381,23.1 4.13399899,22.8429026 L21.714504,14.0454487 C22.6563168,13.5741566 23.1272231,12.6315722 22.9702544,11.6889879 L4.13399899,1.16346272 C3.34915502,0.9 2.40734225,1.00636533 1.77946707,1.4776575 C0.994623095,2.10604706 0.837654326,3.0486314 1.15159189,3.99721575 L3.03521743,10.4382088 C3.03521743,10.5953061 3.34915502,10.7524035 3.50612381,10.7524035 L16.6915026,11.5378905 C16.6915026,11.5378905 17.1624089,11.5378905 17.1624089,12.0091827 C17.1624089,12.4744748 16.6915026,12.4744748 16.6915026,12.4744748 Z" />
                   </svg>
@@ -330,7 +328,7 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
               }}
               disabled={isStreaming || disabled}
               size="icon"
-              className="bg-zinc-100 hover:bg-gradient-red-purple rounded-full w-9 h-9 text-stone-700 hover:text-white transition-all shrink-0"
+              className="transition-all rounded-full bg-zinc-100 hover:bg-gradient-red-purple w-9 h-9 text-stone-700 hover:text-white shrink-0"
               aria-label="Attach image"
             >
               <Paperclip className="w-4 h-4" />
@@ -342,7 +340,7 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
                   variant="ghost"
                   size="icon"
                   disabled={isStreaming || disabled}
-                  className="bg-zinc-100 hover:bg-gradient-red-purple rounded-full w-9 h-9 text-stone-700 hover:text-white transition-all shrink-0"
+                  className="transition-all rounded-full bg-zinc-100 hover:bg-gradient-red-purple w-9 h-9 text-stone-700 hover:text-white shrink-0"
                   aria-label="Select AI model"
                   onClick={playClickSound}
                 >
@@ -368,13 +366,9 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
                         selectedModel === model.id && "bg-stone-100",
                       )}
                     >
-                      <img
-                        src={model.icon || "/placeholder.svg"}
-                        alt={model.name}
-                        width={20}
-                        height={20}
-                        className="rounded-sm w-4 h-4 object-contain"
-                      />
+                      <div>
+                        {model.icon}
+                      </div>
                       <span className="text-sm">{model.name}</span>
                     </DropdownMenuItem>
                   ))}
@@ -382,7 +376,7 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
               </DropdownMenuPortal>
             </DropdownMenu>
 
-            <span className="text-stone-400 text-xs">{currentModel.name}</span>
+            <span className="text-xs text-stone-400">{currentModel.name}</span>
           </div>
         </div>
       </div>

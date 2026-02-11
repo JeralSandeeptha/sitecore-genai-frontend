@@ -61,14 +61,14 @@ const MainRouter = () => {
           </PublicRoute>
         }
       />
-      <Route
+      {/* <Route
         path="/component-generator"
         element={
           <ProtectedRoute>
             <ComponentGeneratorPage />
           </ProtectedRoute>
         }
-      />
+      /> */}
       <Route
         path="/profile"
         element={

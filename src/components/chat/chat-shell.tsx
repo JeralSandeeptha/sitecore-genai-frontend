@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { MessageSquare, Brain, User } from 'lucide-react';
+import { MessageSquare, User } from 'lucide-react';
 import { MessageList } from './message-list';
 import { Composer, type AIModel } from './composer';
 import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
+import { cn } from '@/lib/utils';
+import LoadingComponent from '../loading-component/LoadingComponent';
 
 // Data model for messages
 export interface Message {
@@ -26,12 +27,13 @@ function generateId(): string {
 
 export function ChatShell() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [abortController, setAbortController] = useState<AbortController | null>(null);
-  const [selectedModel, setSelectedModel] = useState<AIModel>('google/gemini-2.0-flash-001');
+  const [selectedModel, setSelectedModel] = useState<AIModel>('casual_chat');
   const [isLoaded, setIsLoaded] = useState(false);
-  const { authenticated } = useAuth();
+  const [componentPrompt, setComponentPrompt] = useState('');
 
   // Load messages from localStorage on mount
   useEffect(() => {
@@ -76,6 +78,8 @@ export function ChatShell() {
       if ((!content.trim() && !imageData) || isStreaming) return;
 
       setError(null);
+
+      setIsLoading(true);
 
       const userMessage: Message = {
         id: generateId(),
@@ -160,6 +164,7 @@ export function ChatShell() {
       } finally {
         setIsStreaming(false);
         setAbortController(null);
+        setIsLoading(false);
       }
     },
     [messages, isStreaming, selectedModel]
@@ -206,19 +211,9 @@ export function ChatShell() {
         <MessageSquare className="w-5 h-5" />
       </Button>
 
-      <Link to="/component-generator">
-        <Button
-          onClick={clearChat}
-          variant="ghost"
-          size="icon"
-          className="absolute z-20 w-10 h-10 text-white transition-all rounded-full cursor-pointer top-16 left-4 hover:text-white hover:scale-105 gradient-red-purple"
-          aria-label="Reset chat"
-        >
-          <Brain className="w-5 h-5" />
-        </Button>
-      </Link>
+      {isLoading && <LoadingComponent />}
 
-      <div className='absolute z-20 flex gap-2 top-4 right-4'>
+      <div className="absolute z-20 flex gap-2 top-4 right-4">
         <Link to="/profile">
           <Button
             onClick={clearChat}
@@ -240,8 +235,47 @@ export function ChatShell() {
         isLoaded={isLoaded}
       />
 
+      {selectedModel === 'component_generator' && (
+        <div
+          className={cn(
+            'right-0 bottom-50 left-0 z-10 fixed px-4 pointer-events-none composer-intro'
+          )}
+        >
+          <div className="relative max-w-2xl mx-auto pointer-events-auto">
+            <div
+              className={cn(
+                'relative flex flex-col gap-3 bg-white p-4 border-0 border-stone-200 border-none rounded-3xl overflow-hidden transition-all duration-200',
+                'focus-within:border-stone-300 focus-within:ring-2 focus-within:ring-stone-200'
+              )}
+              style={{
+                boxShadow:
+                  'rgba(14, 63, 126, 0.06) 0px 0px 0px 1px, rgba(42, 51, 69, 0.06) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.06) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.06) 0px 6px 6px -3px, rgba(14, 63, 126, 0.06) 0px 12px 12px -6px, rgba(14, 63, 126, 0.06) 0px 24px 24px -12px',
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <textarea
+                  value=""
+                  rows={1}
+                  placeholder='Type your online accessible image url....'
+                  className={cn(
+                    'flex-1 bg-transparent px-2 py-1.5 text-stone-800 placeholder:text-stone-400 text-sm resize-none',
+                    'focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+                    'max-h-[56px] overflow-y-auto'
+                  )}
+                  aria-label="Message input"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Composer
-        onSend={sendMessage}
+        onSend={(content, imageData) => {
+          const finalContent =
+            selectedModel === 'component_generator' ? `${componentPrompt}\n${content}` : content;
+          sendMessage(finalContent, imageData);
+        }}
         onStop={stopStreaming}
         isStreaming={isStreaming}
         disabled={!!error}
