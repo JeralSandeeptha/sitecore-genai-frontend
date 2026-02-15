@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState, useRef, useCallback, type KeyboardEvent, useEffect } from "react"
+import { useState, useRef, useCallback, type KeyboardEvent, useEffect, type Dispatch } from "react"
 import { Square, Mic, MicOff, Brain, Paperclip, X, MessageSquare, Puzzle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -11,6 +11,9 @@ import {
   DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu"
 import { AudioWaveform } from "./audio-waveform"
+import { generateComponentOnVercel } from "@/api/genai/genai.service";
+import { useAlert } from "@/hooks/useAlert";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 export type AIModel = "casual_chat" | "component_generator";
 
@@ -23,13 +26,16 @@ interface ComposerProps {
   onSend: (content: string, imageData?: string) => void
   onStop: () => void
   isStreaming: boolean
+  onlineImage: string
   disabled?: boolean
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  setOnlineImage: Dispatch<React.SetStateAction<string>>;
   selectedModel: AIModel
   onModelChange: (model: AIModel) => void
 }
 
-export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel, onModelChange }: ComposerProps) {
-  const [value, setValue] = useState("")
+export function Composer({ setIsLoading, setOnlineImage, onSend, onStop, isStreaming, disabled, selectedModel, onModelChange, onlineImage }: ComposerProps) {
+  const [value, setValue] = useState("");
   const [isRecording, setIsRecording] = useState(false)
   const [uploadedImage, setUploadedImage] = useState<string | null>(null)
   const [showImageBounce, setShowImageBounce] = useState(false)
@@ -39,7 +45,22 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
   const fileInputRef = useRef<HTMLInputElement>(null)
   const recognitionRef = useRef<any>(null)
   const baseTextRef = useRef("")
-  const finalTranscriptsRef = useRef("")
+  const finalTranscriptsRef = useRef("");
+  
+  const { getLocalStorageItem } = useLocalStorage();
+  const { addAlert } = useAlert();
+
+  const handleGenerateComponent = () => {
+    generateComponentOnVercel({
+      prompt: value,
+      addAlert: addAlert,
+      image: onlineImage,
+      userId: getLocalStorageItem('user-id'),
+      setIsLoading: setIsLoading
+    });
+    setValue('');
+    setOnlineImage('');
+  }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -275,7 +296,7 @@ export function Composer({ onSend, onStop, isStreaming, disabled, selectedModel,
               </button>
             ) : (
               <button
-                onClick={handleSend}
+                onClick={handleGenerateComponent}
                 disabled={(!value.trim() && !uploadedImage) || disabled}
                 className={cn(
                   "relative flex justify-center items-center rounded-full w-9 h-9 transition-all shrink-0",

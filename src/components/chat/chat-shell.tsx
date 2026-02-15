@@ -26,6 +26,7 @@ function generateId(): string {
 }
 
 export function ChatShell() {
+  const [onlineImage, setOnlineImage] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -238,7 +239,7 @@ export function ChatShell() {
       {selectedModel === 'component_generator' && (
         <div
           className={cn(
-            'right-0 bottom-50 left-0 z-10 fixed px-4 pointer-events-none composer-intro'
+            'right-0 bottom-35 left-0 z-10 fixed px-4 pointer-events-none composer-intro'
           )}
         >
           <div className="relative max-w-2xl mx-auto pointer-events-auto">
@@ -254,7 +255,10 @@ export function ChatShell() {
             >
               <div className="flex items-center gap-2">
                 <textarea
-                  value=""
+                  value={onlineImage}
+                  onChange={(e) => {
+                    setOnlineImage(e.target.value);
+                  }}
                   rows={1}
                   placeholder='Type your online accessible image url....'
                   className={cn(
@@ -281,6 +285,9 @@ export function ChatShell() {
         disabled={!!error}
         selectedModel={selectedModel}
         onModelChange={handleModelChange}
+        onlineImage={onlineImage}
+        setOnlineImage={setOnlineImage}
+        setIsLoading={setIsLoaded}
       />
     </div>
   );

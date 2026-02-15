@@ -1,9 +1,13 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { NavigateFunction } from "react-router-dom";
+import type { AlertType } from "./context.types";
 
 export type generateComponentOnVercelProps = {
     prompt: string;
     image: string;
+    userId: string;
+    setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+    addAlert: (message: string, type?: AlertType | undefined, timeout?: number | undefined) => void;
 };
 
 export type registerUserProps = {
