@@ -1,60 +1,82 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { NavigateFunction } from "react-router-dom";
-import type { AlertType } from "./context.types";
+import type { Dispatch, SetStateAction } from 'react';
+import type { NavigateFunction } from 'react-router-dom';
+import type { AlertType } from './context.types';
+import type { TaskItem } from '@/pages/tasks-page/TasksPage';
 
 export type generateComponentOnVercelProps = {
-    prompt: string;
-    image: string;
-    userId: string;
-    setIsLoading: Dispatch<React.SetStateAction<boolean>>;
-    addAlert: (message: string, type?: AlertType | undefined, timeout?: number | undefined) => void;
+  prompt: string;
+  image: string;
+  taskId: string;
+  userId: string;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  addAlert: (message: string, type?: AlertType | undefined, timeout?: number | undefined) => void;
 };
 
 export type registerUserProps = {
-    email: string;
-    password: string;
-    navigate: NavigateFunction;
-    isLoading: boolean;
-    setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  email: string;
+  password: string;
+  navigate: NavigateFunction;
+  isLoading: boolean;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type updateUserProps = {
-    fname: string;
-    lname: string;
-    bio: string;
-    userId: string;
-    navigate: NavigateFunction;
-    isLoading: boolean;
-    setIsLoading: Dispatch<React.SetStateAction<boolean>>;
-    setSavedMessage: Dispatch<React.SetStateAction<string>>;
-    setProfileData: Dispatch<React.SetStateAction<any>>;
+  fname: string;
+  lname: string;
+  bio: string;
+  userId: string;
+  navigate: NavigateFunction;
+  isLoading: boolean;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  setSavedMessage: Dispatch<React.SetStateAction<string>>;
+  setProfileData: Dispatch<React.SetStateAction<any>>;
 };
 
 export type updateUserPreferencesProps = {
-    vo_api_key: string;
-    newApiKey: string;
-    userId: string;
-    navigate: NavigateFunction;
-    setIsLoading: Dispatch<React.SetStateAction<boolean>>;
-    setShowApiKeyForm: Dispatch<React.SetStateAction<boolean>>;
-    setSavedMessage: Dispatch<React.SetStateAction<string>>;
-    setProfileData: Dispatch<React.SetStateAction<any>>;
-    setApiKey: Dispatch<React.SetStateAction<string>>;
-    setNewApiKey: Dispatch<React.SetStateAction<string>>;
+  vo_api_key: string;
+  newApiKey: string;
+  userId: string;
+  navigate: NavigateFunction;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  setShowApiKeyForm: Dispatch<React.SetStateAction<boolean>>;
+  setSavedMessage: Dispatch<React.SetStateAction<string>>;
+  setProfileData: Dispatch<React.SetStateAction<any>>;
+  setApiKey: Dispatch<React.SetStateAction<string>>;
+  setNewApiKey: Dispatch<React.SetStateAction<string>>;
 };
 
 export type getSingleUserProps = {
-    userId: string;
-    setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  userId: string;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type loginUserProps = {
-    email: string;
-    password: string;
-    navigate: NavigateFunction;
-    isLoading: boolean;
-    setIsLoading: Dispatch<React.SetStateAction<boolean>>;
-    setAuthenticated: Dispatch<SetStateAction<boolean>>;
-    setLocalStorageItem: (itemName: string, itemData: unknown) => void;
-    setUser: Dispatch<SetStateAction<string>>;
+  email: string;
+  password: string;
+  navigate: NavigateFunction;
+  isLoading: boolean;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  setAuthenticated: Dispatch<SetStateAction<boolean>>;
+  setLocalStorageItem: (itemName: string, itemData: unknown) => void;
+  setUser: Dispatch<SetStateAction<string>>;
+};
+
+export type getTasksByUserIdProps = {
+  userId: string;
+  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
+  setTasks: Dispatch<React.SetStateAction<TaskItem[]>>;
+};
+
+export type deleteTaskProps = {
+  taskId: string;
+  setIsLoading: (value: boolean) => void;
+  setTasks: React.Dispatch<React.SetStateAction<any[]>>;
+};
+
+export type createTaskProps = {
+  prompt: string;
+  image?: string;
+  userId: string;
+  setIsLoading: (value: boolean) => void;
+  addAlert: (message: string, type?: AlertType | undefined, timeout?: number | undefined) => void;
 };

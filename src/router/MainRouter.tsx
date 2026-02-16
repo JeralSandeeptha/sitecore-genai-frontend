@@ -8,6 +8,7 @@ import LandingPage from '@/pages/landing-page/LandingPage';
 import LoginPage from '@/pages/login-page/LoginPage';
 import ProfilePage from '@/pages/profile-page/ProfilePage';
 import RegisterPage from '@/pages/register-page/RegisterPage';
+import TasksPage from '@/pages/tasks-page/TasksPage';
 import { Route, Routes } from 'react-router-dom';
 
 const MainRouter = () => {
@@ -61,14 +62,14 @@ const MainRouter = () => {
           </PublicRoute>
         }
       />
-      {/* <Route
-        path="/component-generator"
+      <Route
+        path="/tasks"
         element={
           <ProtectedRoute>
-            <ComponentGeneratorPage />
+            <TasksPage />
           </ProtectedRoute>
         }
-      /> */}
+      />
       <Route
         path="/profile"
         element={

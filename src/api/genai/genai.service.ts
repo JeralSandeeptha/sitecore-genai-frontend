@@ -12,12 +12,14 @@ export const generateComponentOnVercel = async (props: generateComponentOnVercel
             prompt: props.prompt,
             image: props.image,
             userId: props.userId,
+            taskId: props.taskId
         });
 
         logger.info(res.data);
 
         props.setIsLoading(false);
         props.addAlert('Component is generating. Adding to the queue', 'success');
+
     } catch (error) {
         if (isAxiosError(error)) {
             const status = error.response?.status;

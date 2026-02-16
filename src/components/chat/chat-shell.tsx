@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { MessageSquare, User } from 'lucide-react';
+import { MessageSquare, User, ClipboardList } from 'lucide-react';
 import { MessageList } from './message-list';
 import { Composer, type AIModel } from './composer';
 import { Button } from '../ui/button';
@@ -211,6 +211,17 @@ export function ChatShell() {
       >
         <MessageSquare className="w-5 h-5" />
       </Button>
+      
+      <Link to='/tasks'>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute z-20 w-10 h-10 text-white transition-all rounded-full cursor-pointer top-16 left-4 hover:text-white hover:scale-105 gradient-red-purple"
+          aria-label="Reset chat"
+        >
+          <ClipboardList className="w-5 h-5" />
+        </Button>
+      </Link>
 
       {isLoading && <LoadingComponent />}
 
