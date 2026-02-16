@@ -6,6 +6,11 @@ import {
   Zap,
   Brain,
   Sparkles,
+  Code2,
+  GitBranch,
+  Database,
+  Shield,
+  CheckCircle2,
 } from 'lucide-react';
 import Header from '@/components/header/Header';
 
@@ -15,270 +20,265 @@ export default function LandingPage() {
       {/* Header */}
       <Header isDoc={false} />
 
-      {/* Announcement Badge */}
-      <section className="bg-[#f8f5fc] px-4 py-4 border-border border-b text-center">
-        <div className="mx-auto container">
-          <div className="inline-flex items-center gap-2 px-4 py-2 border border-border rounded-full">
-            <span className="bg-orange-500 rounded-full w-2 h-2 animate-pulse" />
-            <span className="text-foreground">
-              Now available: Advanced image analysis with multiple file support
-            </span>
-          </div>
-        </div>
-      </section>
-
       {/* Hero Section */}
-      <section className="relative bg-[#f8f5fc] px-4 py-24 md:py-40 overflow-hidden">
-        <div className="mx-auto max-w-5xl container">
-          <div className="space-y-8 mb-16 text-center">
-            <h1 className="font-bold text-5xl md:text-7xl text-balance leading-tight">
-              This is <span className="gradient-red-purple-text">AIChat</span>
+      <section className="relative py-24 md:py-40 px-4 overflow-hidden bg-cover bg-center bg-no-repeat">
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/70 to-background/80" />
+        <div className="container mx-auto max-w-5xl relative z-10">
+          <div className="text-center space-y-8 mb-16">
+            <h1 className="text-5xl md:text-7xl font-bold text-balance leading-tight">
+              Generate Sitecore Components with <span className="gradient-red-purple-text">AI</span>
             </h1>
-            <p className="mx-auto max-w-3xl text-foreground/70 text-xl text-balance">
-              One platform. Unlimited possibilities.
+            <p className="text-xl text-foreground/70 text-balance max-w-3xl mx-auto">
+              Teralis accelerates component creation for Sitecore XM Cloud. Connect your v0 account, describe your component, and get production-ready Next.js code instantly.
             </p>
-            <Link to="/chat">
-              <Button className="px-8 py-6 border-0 rounded-full text-white text-lg cursor-pointer gradient-red-purple">
-                Discover SitecoreAI <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
-
-          {/* Hero Visual - Dark card with circle */}
-          <div className="relative flex justify-center items-center bg-black rounded-2xl h-96 md:h-[500px] overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black to-black opacity-50" />
-            <div className="relative flex justify-center items-center bg-white shadow-2xl rounded-full w-80 md:w-96 h-80 md:h-96">
-              <div className="space-y-4 text-center">
-                <Sparkles className="mx-auto w-16 h-16 text-primary animate-pulse" />
-                <p className="font-bold text-foreground text-2xl">AI Magic</p>
-                <p className="text-foreground/60 text-sm">Powered by advanced neural networks</p>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <Link to="/chat">
+                <Button className="gradient-red-purple text-white border-0 text-lg h-12 px-8">
+                  Start Creating <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+              <Link to="/docs">
+                <Button variant="outline" className="border-2 border-secondary text-secondary hover:bg-secondary/10 text-lg h-12 px-8">
+                  View Documentation
+                </Button>
+              </Link>
             </div>
-            {/* Diagonal black shapes */}
-            <div
-              className="top-0 left-0 absolute bg-black w-32 h-full -skew-x-12 transform"
-              style={{ clipPath: 'polygon(0 0, 100% 0, 60% 100%, 0 100%)' }}
-            />
-            <div
-              className="right-0 bottom-0 absolute bg-black w-32 h-full skew-x-12 transform"
-              style={{ clipPath: 'polygon(40% 0, 100% 0, 100% 100%, 0 100%)' }}
-            />
           </div>
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="bg-[#f8f5fc] px-4 py-16 border-border">
-        <div className="mx-auto max-w-5xl container">
-          <p className="mb-8 text-foreground/60 text-sm text-center">
-            Trusted by leading organizations
-          </p>
-          <div className="justify-items-center items-center gap-8 grid grid-cols-2 md:grid-cols-4">
-            {['TechCorp', 'InnovateLabs', 'Digital Pro', 'Future Systems'].map((company) => (
-              <div key={company} className="font-semibold text-foreground/40 text-sm">
-                {company}
-              </div>
-            ))}
+      {/* Key Stats */}
+      <section className="py-16 px-4 border-b border-border bg-white/30">
+        <div className="container mx-auto max-w-5xl">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <p className="text-4xl font-bold gradient-red-purple-text mb-2">30s</p>
+              <p className="text-foreground/70">Component Generation Time</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold gradient-red-purple-text mb-2">100%</p>
+              <p className="text-foreground/70">Sitecore Compatible</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold gradient-red-purple-text mb-2">∞</p>
+              <p className="text-foreground/70">Possibilities</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Features Grid with Testimonials */}
-      <section className="bg-[#f8f5fc] px-4 py-20">
-        <div className="mx-auto max-w-5xl container">
-          <div className="gap-8 grid md:grid-cols-3">
+      {/* Features Section */}
+      <section id="features" className="py-20 px-4 bg-white/50">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Powerful Features for Sales Engineers
+            </h2>
+            <p className="text-lg text-foreground/60">
+              Everything you need to accelerate Sitecore component development
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                company: 'TechCorp',
-                title: 'Delivered personalized experiences with AIChat',
-                description:
-                  'Using advanced AI capabilities to understand customer needs and deliver tailored solutions.',
+                icon: Code2,
+                title: 'AI-Powered Generation',
+                desc: 'Describe components in natural language and get production-ready React/TypeScript code'
               },
               {
-                company: 'InnovateLabs',
-                title: 'Transforming digital delivery with AIChat',
-                description:
-                  'A streamlined image analysis solution that enhances content strategy and delivery.',
+                icon: GitBranch,
+                title: 'v0 Integration',
+                desc: 'Securely connect your v0 account and generate components directly in your personal workspace'
               },
               {
-                company: 'Digital Pro',
-                title: 'Innovative digital experiences at scale',
-                description:
-                  'Scaling AI-powered solutions to create meaningful customer interactions and insights.',
+                icon: Database,
+                title: 'RAG Knowledge Base',
+                desc: 'Leverage vector-based retrieval for context-aware component generation'
               },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-white/50 p-8 border border-border hover:border-primary/30 rounded-xl transition"
-              >
-                <p className="mb-3 text-primary/60 text-xs uppercase tracking-wider">
-                  {item.company}
+              {
+                icon: Shield,
+                title: 'Sitecore Field Integration',
+                desc: 'Auto-generate Sitecore field bindings for seamless XM Cloud integration'
+              },
+              {
+                icon: Zap,
+                title: 'Lightning Fast',
+                desc: 'Get responses in under 30 seconds with optimized infrastructure'
+              },
+              {
+                icon: Lock,
+                title: 'Enterprise Security',
+                desc: 'Encrypted API keys, HTTPS-only communication, and role-based access control'
+              }
+            ].map((feature, idx) => (
+              <div key={idx} className="group p-8 rounded-2xl bg-gradient-to-br from-white to-background border border-border hover:border-primary/30 transition-all hover:shadow-lg hover:shadow-primary/10">
+                {/* <feature.icon className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition" /> */}
+                <h3 className="text-xl font-bold text-foreground mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-foreground/70">
+                  {feature.desc}
                 </p>
-                <h3 className="mb-3 font-bold text-foreground text-lg">{item.title}</h3>
-                <p className="text-foreground/70 text-sm">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Main Features Section - Deep Blue */}
-      <section
-        id="features"
-        className="bg-gradient-to-r from-[#1a07ad] via-[#6025e8] to-[#8b27f5] px-4 py-20"
-      >
-        <div className="mx-auto max-w-5xl container">
-          <div className="gap-12 grid md:grid-cols-2 mb-16">
-            <div className="space-y-8">
-              <div>
-                <h2 className="mb-4 font-bold text-white text-4xl">One platform.</h2>
-                <p className="text-white/80 text-lg leading-relaxed">
-                  Streamline your global marketing teams to rapidly deploy personalized content for
-                  any audience. Integrate everything with AIChat's unified platform for maximum
-                  impact.
-                </p>
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 px-4 bg-gradient-to-r from-[#1a07ad] via-[#6025e8] to-[#8b27f5]">
+        <div className="container mx-auto max-w-5xl">
+          <h2 className="text-4xl font-bold text-white text-center mb-16">How Teralis Works</h2>
+          
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              {
+                number: 1,
+                title: 'Connect v0',
+                desc: 'Add your v0 API key securely in your profile'
+              },
+              {
+                number: 2,
+                title: 'Describe Component',
+                desc: 'Provide a prompt and optional image reference'
+              },
+              {
+                number: 3,
+                title: 'AI Generates',
+                desc: 'RAG retrieves context and v0 generates code'
+              },
+              {
+                number: 4,
+                title: 'Deploy to XM Cloud',
+                desc: 'Use generated component in your Sitecore project'
+              }
+            ].map((step, idx) => (
+              <div key={idx} className="relative">
+                <div className="bg-white/10 border border-white/20 backdrop-blur rounded-lg p-6 h-full">
+                  <div className="w-12 h-12 rounded-full bg-gradient-red-purple flex items-center justify-center text-white font-bold text-lg mb-4">
+                    {step.number}
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
+                  <p className="text-white/70 text-sm">{step.desc}</p>
+                </div>
+                {idx < 3 && (
+                  <div className="hidden md:flex absolute top-1/2 -right-3 transform -translate-y-1/2 text-white/40">
+                    <ArrowRight className="w-6 h-6" />
+                  </div>
+                )}
               </div>
-              <Link to="/register">
-              <Button className="px-8 py-6 border-0 rounded-full text-white text-lg cursor-pointer gradient-red-purple">
-                Discover SitecoreAI <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
-            </Link>
-            </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Architecture Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Enterprise-Grade Architecture
+            </h2>
+            <p className="text-lg text-foreground/60">
+              Built for scale with microservices, Kubernetes, and cloud-native infrastructure
+            </p>
+          </div>
+
+          <div className="p-8 rounded-2xl bg-white/50 border border-border">
             <div className="space-y-6">
-              {[
-                {
-                  icon: Brain,
-                  title: 'Content Management System',
-                  desc: 'Organize, create, and deliver assets',
-                },
-                {
-                  icon: Images,
-                  title: 'Digital Asset Management',
-                  desc: 'Organize, find and deliver assets',
-                },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/10 backdrop-blur p-6 border border-white/20 rounded-lg"
-                >
-                  <item.icon className="mb-3 w-8 h-8 text-primary" />
-                  <h3 className="mb-2 font-bold text-white">{item.title}</h3>
-                  <p className="text-white/70 text-sm">{item.desc}</p>
+              <div className="flex items-start gap-4">
+                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h3 className="font-bold text-foreground mb-1">Microservice Architecture</h3>
+                  <p className="text-foreground/70">User Service, AI Service, Knowledge Service, Code Generation Service independently deployed and scaled</p>
                 </div>
-              ))}
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h3 className="font-bold text-foreground mb-1">Vector-Based RAG</h3>
+                  <p className="text-foreground/70">Qdrant integration for semantic similarity search to retrieve relevant component patterns</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h3 className="font-bold text-foreground mb-1">Message Queue Processing</h3>
+                  <p className="text-foreground/70">RabbitMQ for async processing with automatic retry mechanisms and dead-letter queues</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div>
+                  <h3 className="font-bold text-foreground mb-1">Cloud-Native Deployment</h3>
+                  <p className="text-foreground/70">Docker containerized services on Kubernetes with 99% uptime target and automatic scaling</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Capabilities Section */}
-      <section
-        id="capabilities"
-        className="bg-gradient-to-r from-[#1a07ad] via-[#6025e8] to-[#8b27f5] px-4 py-20"
-      >
-        <div className="mx-auto max-w-5xl container">
-          <div className="mb-12">
-            <h2 className="mb-4 font-bold text-white text-4xl">Unlimited possibilities.</h2>
-            <p className="max-w-2xl text-white/80 text-lg">
-              Orchestrate every interaction with AI-driven automation that delivers connected
-              experiences.
-            </p>
-          </div>
-
-          <div className="gap-6 grid md:grid-cols-2">
-            {[
-              {
-                title: 'Personalization Engine',
-                desc: 'Deliver hyper-personalized experiences powered by AI',
-              },
-              {
-                title: 'Content Operations',
-                desc: 'Streamline content creation and distribution workflows',
-              },
-              {
-                title: 'Analytics Intelligence',
-                desc: 'Understand customer behavior with AI insights',
-              },
-              {
-                title: 'Commerce Optimization',
-                desc: 'Increase conversions with intelligent recommendations',
-              },
-              {
-                title: 'Customer Experience',
-                desc: 'Create memorable interactions at every touchpoint',
-              },
-              {
-                title: 'Workflow Automation',
-                desc: 'Automate complex processes with AI assistance',
-              },
-            ].map((capability, idx) => (
-              <div
-                key={idx}
-                className="bg-white/10 hover:bg-white/20 backdrop-blur p-6 border border-white/20 rounded-lg transition"
-              >
-                <Zap className="mb-3 w-6 h-6 text-primary" />
-                <h3 className="mb-2 font-bold text-white">{capability.title}</h3>
-                <p className="text-white/70 text-sm">{capability.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="bg-[#f8f5fc] px-4 py-20">
-        <div className="mx-auto max-w-5xl container">
-          <h2 className="mb-16 font-bold text-foreground text-4xl text-center">
-            Trusted by leaders
+      {/* Use Cases */}
+      <section className="py-20 px-4 bg-white/30">
+        <div className="container mx-auto max-w-5xl">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-16">
+            Perfect For
           </h2>
-          <div className="gap-8 grid md:grid-cols-3">
+          <div className="grid md:grid-cols-2 gap-8">
             {[
               {
-                name: 'Jennifer Hartlinger',
-                title: 'Chief Business Officer of General Specialty',
-                image: '👩‍💼',
+                title: 'Sales Engineers',
+                desc: 'Rapidly prototype and deliver custom Sitecore components without deep coding knowledge'
               },
               {
-                name: 'Rigoberto Villarante',
-                title: 'Director of Global Work Marketing at Shoe',
-                image: '👨‍💼',
+                title: 'Template Creators',
+                desc: 'Accelerate marketplace template development with AI-powered component generation'
               },
-              { name: 'Tim Disston', title: 'Vice President, Platform Ops', image: '👨‍💼' },
-            ].map((person, idx) => (
-              <div key={idx} className="text-center">
-                <div className="flex justify-center items-center bg-gradient-to-br from-primary to-accent mx-auto mb-4 rounded-lg w-40 h-40 text-6xl">
-                  {person.image}
-                </div>
-                <h3 className="mb-1 font-bold text-foreground">{person.name}</h3>
-                <p className="text-foreground/60 text-sm">{person.title}</p>
+              {
+                title: 'Development Teams',
+                desc: 'Reduce development cycle time and focus on complex business logic'
+              },
+              {
+                title: 'Agencies',
+                desc: 'Scale Sitecore project delivery while maintaining code quality and consistency'
+              }
+            ].map((useCase, idx) => (
+              <div key={idx} className="p-8 rounded-xl border border-border hover:border-primary/30 transition">
+                <h3 className="text-xl font-bold text-foreground mb-3">{useCase.title}</h3>
+                <p className="text-foreground/70">{useCase.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="bg-[#f8f5fc] px-4 py-20 border-border border-b">
-        <div className="space-y-8 mx-auto max-w-3xl text-center container">
-          <h2 className="font-bold text-foreground text-4xl">Ready to do so much more?</h2>
-          <p className="text-foreground/70 text-lg">
-            Join 3000+ enterprise customers who use AIChat to deliver social digital experiences
-            that deliver.
-          </p>
-          <div className="flex sm:flex-row flex-col justify-center gap-4">
-            <Link to="/register">
-              <Button className="px-8 py-6 border-0 rounded-full text-white text-lg cursor-pointer gradient-red-purple">
-                Request a demo
-              </Button>
-            </Link>
-            <Link to="/chat">
-              <Button
-                variant="outline"
-                className="bg-transparent px-8 py-6 border-0 border-foreground/20 rounded-full h-12 text-foreground text-lg cursor-pointer"
-              >
-                Contact us
-              </Button>
-            </Link>
+      {/* CTA Section */}
+      <section className="py-20 px-4">
+        <div className="container mx-auto max-w-4xl">
+          <div className="relative rounded-3xl overflow-hidden">
+            <div className="absolute inset-0 gradient-red-purple opacity-20" />
+            <div className="relative p-12 md:p-16 text-center space-y-8">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                Ready to accelerate your workflow?
+              </h2>
+              <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+                Join Sales Engineers and agencies already using Teralis to deliver Sitecore components 10x faster.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/register">
+                  <Button className="gradient-red-purple text-white border-0 text-lg h-12 px-8">
+                    Start Free <ArrowRight className="w-5 h-5 ml-2" />
+                  </Button>
+                </Link>
+                <Link to="#">
+                  <Button variant="outline" className="border-foreground/20 text-foreground h-12">
+                    Schedule Demo
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -141,10 +141,10 @@ export function MessageList({ messages, isStreaming, error, onRetry, isLoaded }:
             <AnimatedOrb size={128} />
           </div>
           <p className={`text-2xl font-medium text-gray-500 ${hasAnimated ? "text-blur-intro" : ""}`}>
-            Hellooo!, I'm Jeral
+            Hellooo!, I'm TeralisAI
           </p>
           <p className={`text-lg font-medium text-gray-500 ${hasAnimated ? "text-blur-intro" : ""}`}>
-            I'm here to help you regarding Demo Solutions Team
+            I'm here to help you to create your unique components
           </p>
           <p className={`text-sm mt-1 text-gray-400 ${hasAnimated ? "text-blur-intro-delay" : ""}`}>
             Send a message to begin chatting with the AI assistant
