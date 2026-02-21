@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import type React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { AnalysisWordSpan } from "./analysis-word-span"
 
 interface MarkdownRendererProps {
@@ -10,7 +10,6 @@ interface MarkdownRendererProps {
 }
 
 export function MarkdownRenderer({ content, className, isStreaming = false }: MarkdownRendererProps) {
-  const renderedContentRef = useRef("")
   const [staticContent, setStaticContent] = useState("")
   const [animatingContent, setAnimatingContent] = useState("")
 
@@ -81,7 +80,7 @@ export function MarkdownRenderer({ content, className, isStreaming = false }: Ma
             href={linkMatch[2]}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2 transition-colors"
+            className="underline transition-colors text-emerald-600 hover:text-emerald-700 underline-offset-2"
           >
             {linkMatch[1]}
           </a>,
@@ -168,7 +167,7 @@ export function MarkdownRenderer({ content, className, isStreaming = false }: Ma
             href={linkMatch[2]}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-emerald-600 hover:text-emerald-700 underline underline-offset-2 transition-colors"
+            className="underline transition-colors text-emerald-600 hover:text-emerald-700 underline-offset-2"
           >
             {linkMatch[1]}
           </a>,
@@ -218,13 +217,13 @@ export function MarkdownRenderer({ content, className, isStreaming = false }: Ma
     return (
       <pre
         key={partIndex}
-        className="bg-stone-900 my-2 p-3 rounded-lg overflow-x-auto font-mono text-stone-100 text-sm"
+        className="p-3 my-2 overflow-x-auto font-mono text-sm rounded-lg bg-stone-900 text-stone-100"
         style={{
           boxShadow:
             "rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, rgba(14, 63, 126, 0.04) 0px 24px 24px -12px",
         }}
       >
-        {language && <span className="block mb-2 text-stone-400 text-xs">{language}</span>}
+        {language && <span className="block mb-2 text-xs text-stone-400">{language}</span>}
         <code>{code}</code>
       </pre>
     )

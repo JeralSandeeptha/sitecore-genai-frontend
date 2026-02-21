@@ -1,7 +1,6 @@
 import ProtectedRoute from '@/components/protected-route/ProtectedRoute';
 import PublicRoute from '@/components/public-route/PublicRoute';
 import ChatPage from '@/pages/chat-page/ChatPage';
-import ComponentGeneratorPage from '@/pages/component-generator-page/ComponentGeneratorPage';
 import DocsPage from '@/pages/docs-page/DocumentationPage';
 import { ForgotPasswordPage } from '@/pages/forgot-password-page/ForgotPasswordPage';
 import LandingPage from '@/pages/landing-page/LandingPage';

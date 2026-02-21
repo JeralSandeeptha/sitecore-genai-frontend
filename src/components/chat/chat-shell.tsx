@@ -34,7 +34,7 @@ export function ChatShell() {
   const [abortController, setAbortController] = useState<AbortController | null>(null);
   const [selectedModel, setSelectedModel] = useState<AIModel>('casual_chat');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [componentPrompt, setComponentPrompt] = useState('');
+  const [componentPrompt] = useState('');
 
   // Load messages from localStorage on mount
   useEffect(() => {

@@ -2,10 +2,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import {
   ArrowRight,
-  Images,
   Zap,
-  Brain,
-  Sparkles,
   Code2,
   GitBranch,
   Database,
@@ -16,29 +13,29 @@ import Header from '@/components/header/Header';
 
 export default function LandingPage() {
   return (
-    <div className="bg-background min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <Header isDoc={false} />
 
       {/* Hero Section */}
-      <section className="relative py-24 md:py-40 px-4 overflow-hidden bg-cover bg-center bg-no-repeat">
+      <section className="relative px-4 py-24 overflow-hidden bg-center bg-no-repeat bg-cover md:py-40">
         <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/70 to-background/80" />
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <div className="text-center space-y-8 mb-16">
-            <h1 className="text-5xl md:text-7xl font-bold text-balance leading-tight">
+        <div className="container relative z-10 max-w-5xl mx-auto">
+          <div className="mb-16 space-y-8 text-center">
+            <h1 className="text-5xl font-bold leading-tight md:text-7xl text-balance">
               Generate Sitecore Components with <span className="gradient-red-purple-text">AI</span>
             </h1>
-            <p className="text-xl text-foreground/70 text-balance max-w-3xl mx-auto">
+            <p className="max-w-3xl mx-auto text-xl text-foreground/70 text-balance">
               Teralis accelerates component creation for Sitecore XM Cloud. Connect your v0 account, describe your component, and get production-ready Next.js code instantly.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+            <div className="flex flex-col justify-center gap-4 pt-4 sm:flex-row">
               <Link to="/chat">
-                <Button className="gradient-red-purple text-white border-0 text-lg h-12 px-8">
+                <Button className="h-12 px-8 text-lg text-white border-0 gradient-red-purple">
                   Start Creating <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
               <Link to="/docs">
-                <Button variant="outline" className="border-2 border-secondary text-secondary hover:bg-secondary/10 text-lg h-12 px-8">
+                <Button variant="outline" className="h-12 px-8 text-lg border-2 border-secondary text-secondary hover:bg-secondary/10">
                   View Documentation
                 </Button>
               </Link>
@@ -48,19 +45,19 @@ export default function LandingPage() {
       </section>
 
       {/* Key Stats */}
-      <section className="py-16 px-4 border-b border-border bg-white/30">
-        <div className="container mx-auto max-w-5xl">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
+      <section className="px-4 py-16 border-b border-border bg-white/30">
+        <div className="container max-w-5xl mx-auto">
+          <div className="grid gap-8 text-center md:grid-cols-3">
             <div>
-              <p className="text-4xl font-bold gradient-red-purple-text mb-2">30s</p>
+              <p className="mb-2 text-4xl font-bold gradient-red-purple-text">30s</p>
               <p className="text-foreground/70">Component Generation Time</p>
             </div>
             <div>
-              <p className="text-4xl font-bold gradient-red-purple-text mb-2">100%</p>
+              <p className="mb-2 text-4xl font-bold gradient-red-purple-text">100%</p>
               <p className="text-foreground/70">Sitecore Compatible</p>
             </div>
             <div>
-              <p className="text-4xl font-bold gradient-red-purple-text mb-2">∞</p>
+              <p className="mb-2 text-4xl font-bold gradient-red-purple-text">∞</p>
               <p className="text-foreground/70">Possibilities</p>
             </div>
           </div>
@@ -68,10 +65,10 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 bg-white/50">
-        <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <section id="features" className="px-4 py-20 bg-white/50">
+        <div className="container max-w-5xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl text-foreground">
               Powerful Features for Sales Engineers
             </h2>
             <p className="text-lg text-foreground/60">
@@ -79,7 +76,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid gap-8 md:grid-cols-3">
             {[
               {
                 icon: Code2,
@@ -112,9 +109,9 @@ export default function LandingPage() {
                 desc: 'Encrypted API keys, HTTPS-only communication, and role-based access control'
               }
             ].map((feature, idx) => (
-              <div key={idx} className="group p-8 rounded-2xl bg-gradient-to-br from-white to-background border border-border hover:border-primary/30 transition-all hover:shadow-lg hover:shadow-primary/10">
-                {/* <feature.icon className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition" /> */}
-                <h3 className="text-xl font-bold text-foreground mb-3">
+              <div key={idx} className="p-8 transition-all border group rounded-2xl bg-gradient-to-br from-white to-background border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10">
+                {/* <feature.icon className="w-12 h-12 mb-6 transition text-primary group-hover:scale-110" /> */}
+                <h3 className="mb-3 text-xl font-bold text-foreground">
                   {feature.title}
                 </h3>
                 <p className="text-foreground/70">
@@ -128,10 +125,10 @@ export default function LandingPage() {
 
       {/* How It Works */}
       <section id="how-it-works" className="py-20 px-4 bg-gradient-to-r from-[#1a07ad] via-[#6025e8] to-[#8b27f5]">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-4xl font-bold text-white text-center mb-16">How Teralis Works</h2>
+        <div className="container max-w-5xl mx-auto">
+          <h2 className="mb-16 text-4xl font-bold text-center text-white">How Teralis Works</h2>
           
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid gap-6 md:grid-cols-4">
             {[
               {
                 number: 1,
@@ -155,15 +152,15 @@ export default function LandingPage() {
               }
             ].map((step, idx) => (
               <div key={idx} className="relative">
-                <div className="bg-white/10 border border-white/20 backdrop-blur rounded-lg p-6 h-full">
-                  <div className="w-12 h-12 rounded-full bg-gradient-red-purple flex items-center justify-center text-white font-bold text-lg mb-4">
+                <div className="h-full p-6 border rounded-lg bg-white/10 border-white/20 backdrop-blur">
+                  <div className="flex items-center justify-center w-12 h-12 mb-4 text-lg font-bold text-white rounded-full bg-gradient-red-purple">
                     {step.number}
                   </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
-                  <p className="text-white/70 text-sm">{step.desc}</p>
+                  <h3 className="mb-2 text-lg font-bold text-white">{step.title}</h3>
+                  <p className="text-sm text-white/70">{step.desc}</p>
                 </div>
                 {idx < 3 && (
-                  <div className="hidden md:flex absolute top-1/2 -right-3 transform -translate-y-1/2 text-white/40">
+                  <div className="absolute hidden transform -translate-y-1/2 md:flex top-1/2 -right-3 text-white/40">
                     <ArrowRight className="w-6 h-6" />
                   </div>
                 )}
@@ -174,10 +171,10 @@ export default function LandingPage() {
       </section>
 
       {/* Architecture Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-5xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+      <section className="px-4 py-20">
+        <div className="container max-w-5xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold md:text-4xl text-foreground">
               Enterprise-Grade Architecture
             </h2>
             <p className="text-lg text-foreground/60">
@@ -185,33 +182,33 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-2xl bg-white/50 border border-border">
+          <div className="p-8 border rounded-2xl bg-white/50 border-border">
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <CheckCircle2 className="flex-shrink-0 w-6 h-6 mt-1 text-primary" />
                 <div>
-                  <h3 className="font-bold text-foreground mb-1">Microservice Architecture</h3>
+                  <h3 className="mb-1 font-bold text-foreground">Microservice Architecture</h3>
                   <p className="text-foreground/70">User Service, AI Service, Knowledge Service, Code Generation Service independently deployed and scaled</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <CheckCircle2 className="flex-shrink-0 w-6 h-6 mt-1 text-primary" />
                 <div>
-                  <h3 className="font-bold text-foreground mb-1">Vector-Based RAG</h3>
+                  <h3 className="mb-1 font-bold text-foreground">Vector-Based RAG</h3>
                   <p className="text-foreground/70">Qdrant integration for semantic similarity search to retrieve relevant component patterns</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <CheckCircle2 className="flex-shrink-0 w-6 h-6 mt-1 text-primary" />
                 <div>
-                  <h3 className="font-bold text-foreground mb-1">Message Queue Processing</h3>
+                  <h3 className="mb-1 font-bold text-foreground">Message Queue Processing</h3>
                   <p className="text-foreground/70">RabbitMQ for async processing with automatic retry mechanisms and dead-letter queues</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <CheckCircle2 className="flex-shrink-0 w-6 h-6 mt-1 text-primary" />
                 <div>
-                  <h3 className="font-bold text-foreground mb-1">Cloud-Native Deployment</h3>
+                  <h3 className="mb-1 font-bold text-foreground">Cloud-Native Deployment</h3>
                   <p className="text-foreground/70">Docker containerized services on Kubernetes with 99% uptime target and automatic scaling</p>
                 </div>
               </div>
@@ -221,12 +218,12 @@ export default function LandingPage() {
       </section>
 
       {/* Use Cases */}
-      <section className="py-20 px-4 bg-white/30">
-        <div className="container mx-auto max-w-5xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground text-center mb-16">
+      <section className="px-4 py-20 bg-white/30">
+        <div className="container max-w-5xl mx-auto">
+          <h2 className="mb-16 text-3xl font-bold text-center md:text-4xl text-foreground">
             Perfect For
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid gap-8 md:grid-cols-2">
             {[
               {
                 title: 'Sales Engineers',
@@ -245,8 +242,8 @@ export default function LandingPage() {
                 desc: 'Scale Sitecore project delivery while maintaining code quality and consistency'
               }
             ].map((useCase, idx) => (
-              <div key={idx} className="p-8 rounded-xl border border-border hover:border-primary/30 transition">
-                <h3 className="text-xl font-bold text-foreground mb-3">{useCase.title}</h3>
+              <div key={idx} className="p-8 transition border rounded-xl border-border hover:border-primary/30">
+                <h3 className="mb-3 text-xl font-bold text-foreground">{useCase.title}</h3>
                 <p className="text-foreground/70">{useCase.desc}</p>
               </div>
             ))}
@@ -255,25 +252,25 @@ export default function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl">
-          <div className="relative rounded-3xl overflow-hidden">
+      <section className="px-4 py-20">
+        <div className="container max-w-4xl mx-auto">
+          <div className="relative overflow-hidden rounded-3xl">
             <div className="absolute inset-0 gradient-red-purple opacity-20" />
-            <div className="relative p-12 md:p-16 text-center space-y-8">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            <div className="relative p-12 space-y-8 text-center md:p-16">
+              <h2 className="text-3xl font-bold md:text-4xl text-foreground">
                 Ready to accelerate your workflow?
               </h2>
-              <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+              <p className="max-w-2xl mx-auto text-lg text-foreground/70">
                 Join Sales Engineers and agencies already using Teralis to deliver Sitecore components 10x faster.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col justify-center gap-4 sm:flex-row">
                 <Link to="/register">
-                  <Button className="gradient-red-purple text-white border-0 text-lg h-12 px-8">
+                  <Button className="h-12 px-8 text-lg text-white border-0 gradient-red-purple">
                     Start Free <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
                 <Link to="#">
-                  <Button variant="outline" className="border-foreground/20 text-foreground h-12">
+                  <Button variant="outline" className="h-12 border-foreground/20 text-foreground">
                     Schedule Demo
                   </Button>
                 </Link>
@@ -285,23 +282,23 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="bg-gradient-to-r from-[#1a07ad] to-[#6025e8] px-4 py-16 text-white">
-        <div className="mx-auto max-w-5xl container">
-          <div className="gap-8 grid md:grid-cols-5 mb-12">
+        <div className="container max-w-5xl mx-auto">
+          <div className="grid gap-8 mb-12 md:grid-cols-5">
             <div>
               <h4 className="mb-4 font-bold">Platform</h4>
-              <ul className="space-y-2 text-white/80 text-sm">
+              <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Chat
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Image Analysis
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Capabilities
                   </Link>
                 </li>
@@ -309,19 +306,19 @@ export default function LandingPage() {
             </div>
             <div>
               <h4 className="mb-4 font-bold">Solutions</h4>
-              <ul className="space-y-2 text-white/80 text-sm">
+              <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Enterprise
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Startups
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Developers
                   </Link>
                 </li>
@@ -329,19 +326,19 @@ export default function LandingPage() {
             </div>
             <div>
               <h4 className="mb-4 font-bold">Resources</h4>
-              <ul className="space-y-2 text-white/80 text-sm">
+              <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Documentation
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     API Reference
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Guides
                   </Link>
                 </li>
@@ -349,19 +346,19 @@ export default function LandingPage() {
             </div>
             <div>
               <h4 className="mb-4 font-bold">Company</h4>
-              <ul className="space-y-2 text-white/80 text-sm">
+              <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     About us
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Careers
                   </Link>
                 </li>
@@ -369,28 +366,28 @@ export default function LandingPage() {
             </div>
             <div>
               <h4 className="mb-4 font-bold">Legal</h4>
-              <ul className="space-y-2 text-white/80 text-sm">
+              <ul className="space-y-2 text-sm text-white/80">
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Privacy
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Terms
                   </Link>
                 </li>
                 <li>
-                  <Link to="#" className="hover:text-white transition">
+                  <Link to="#" className="transition hover:text-white">
                     Contact
                   </Link>
                 </li>
               </ul>
             </div>
           </div>
-          <div className="flex md:flex-row flex-col justify-between items-center pt-8 border-white/20 border-t">
+          <div className="flex flex-col items-center justify-between pt-8 border-t md:flex-row border-white/20">
             <div className="flex items-center gap-2 mb-4 md:mb-0">
-              <div className="flex items-center gap-2 w-40">
+              <div className="flex items-center w-40 gap-2">
                 <Link to="/">
                   <img
                     alt="Sitecore"
@@ -407,7 +404,7 @@ export default function LandingPage() {
                 </Link>
               </div>
             </div>
-            <p className="text-white/60 text-sm text-center md:text-right">
+            <p className="text-sm text-center text-white/60 md:text-right">
               &copy; 2026 AIChat. All rights reserved.
             </p>
           </div>

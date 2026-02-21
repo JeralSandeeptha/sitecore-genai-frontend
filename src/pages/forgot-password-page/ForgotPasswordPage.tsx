@@ -1,6 +1,5 @@
 import React from "react"
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, ArrowLeft } from 'lucide-react';
 import { Link } from "react-router-dom";
@@ -38,32 +37,32 @@ export function ForgotPasswordPage() {
   return (
     <div className="flex justify-center items-center bg-gradient-to-br from-[#F5F0FF] via-white to-[#F5F0FF] p-4 w-full h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
-      <div className="space-y-6 bg-card mx-auto p-8 border border-border rounded-lg">
+      <div className="p-8 mx-auto space-y-6 border rounded-lg bg-card border-border">
         {/* Email field */}
         <div className="space-y-2">
           <label
             htmlFor="email"
-            className="block font-medium text-foreground text-sm"
+            className="block text-sm font-medium text-foreground"
           >
             Email address
           </label>
           <div className="relative">
-            <Mail className="top-3 left-3 absolute w-5 h-5 text-muted-foreground pointer-events-none" />
+            <Mail className="absolute w-5 h-5 pointer-events-none top-3 left-3 text-muted-foreground" />
             <Input
               id="email"
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-secondary pl-10 border-border focus:border-primary focus:ring-primary h-11 text-foreground placeholder:text-muted-foreground"
+              className="pl-10 bg-secondary border-border focus:border-primary focus:ring-primary h-11 text-foreground placeholder:text-muted-foreground"
             />
           </div>
         </div>
 
         {/* Error message */}
         {error && (
-          <div className="bg-red-50 p-3 border border-red-200 rounded-lg">
-            <p className="text-red-600 text-sm">{error}</p>
+          <div className="p-3 border border-red-200 rounded-lg bg-red-50">
+            <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
 
@@ -81,7 +80,7 @@ export function ForgotPasswordPage() {
       <div className="text-center">
         <Link
           to="/login"
-          className="inline-flex items-center gap-2 font-medium text-primary hover:text-accent transition-colors"
+          className="inline-flex items-center gap-2 font-medium transition-colors text-primary hover:text-accent"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Login
